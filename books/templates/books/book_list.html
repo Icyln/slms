@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Book Collection - SmartLibrary{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="fw-bold" style="color: var(--primary-color);">
+        Book Collection
+    </h2>
+
+    <a href="{% url 'book_create' %}" class="btn-primary-custom shadow-sm">
+        <i class="bi bi-plus-lg me-1"></i> Add New Book
+    </a>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead style="background-color: #f1f4f8;">
+                    <tr>
+                        <th class="ps-4 py-3">Cover</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>ISBN</th>
+                        <th>Published</th>
+                        <th class="text-center">Available</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+
+                        <td class="ps-4">
+                            {% if book.cover_pic %}
+                                <img src="{{ book.cover_pic.url }}"
+                                     class="rounded shadow-sm"
+                                     style="width: 55px; height: 80px; object-fit: cover;">
+                            {% else %}
+                                <span class="text-muted small">No Cover</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="fw-semibold" style="color: var(--primary-color);">
+                            {{ book.title }}
+                        </td>
+
+                        <td>{{ book.author }}</td>
+
+                        <td>
+                            <span class="badge rounded-pill border px-3"
+                                  style="color: var(--secondary-color); border-color: var(--secondary-color);">
+                                {{ book.category }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <code class="small text-muted">
+                                {{ book.isbn }}
+                            </code>
+                        </td>
+
+                        <td>
+                            <code class="small text-muted">
+                            {{ book.published_date|date:"y-m-j" }}
+                            </code>
+                        </td>
+
+                        <td class="text-center">
+                            {% if book.available_copies > 0 %}
+                                <span class="badge bg-success">
+                                    {{ book.available_copies }} In Stock
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Out of Stock
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end pe-4">
+                            <div class="d-inline-flex gap-2">
+                                <a href="{% url 'book_update' book.id %}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'book_delete' book.id %}"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            No books available in the library.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

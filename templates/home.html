@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - SmartLibrary{% endblock %}
+
+{% block content %}
+<div class="row align-items-center py-5 mt-4">
+    <div class="col-lg-6">
+        <h1 class="display-3 fw-bold mb-3" style="color: var(--primary-color);">
+            Ready to start your reading journey?
+        </h1>
+        <p class="lead text-muted mb-4" style="font-size: 1.2rem;">
+            Explore our vast collection of books, manage your personal library, and discover new authors all in one quiet place.
+        </p>
+        
+        <div class="d-flex gap-3">
+            <a href="{% url 'book_list' %}" class="btn-primary-custom fs-5 shadow">
+                <i class="bi bi-rocket-takeoff me-2"></i> Browse Library
+            </a>
+            <a href="{% url 'borrow_create' %}" class="btn btn-outline-secondary rounded-pill px-4 d-flex align-items-center">
+                <i class="bi bi-arrow-up-circle me-2"></i> Borrow Book
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 d-none d-lg-block text-center">
+        <div class="p-5 bg-light rounded-circle d-inline-block shadow-sm" style="border: 10px solid white;">
+            <i class="bi bi-book text-primary opacity-25" style="font-size: 12rem; color: var(--primary-color) !important;"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 pt-5 border-top">
+    <div class="col-md-4 text-center">
+        <i class="bi bi-journal-bookmark fs-1 mb-3" style="color: var(--secondary-color);"></i>
+        <h5 class="fw-bold">Browse Books</h5>
+        <p class="small text-muted">View all available books in the library quickly.</p>
+    </div>
+    <div class="col-md-4 text-center">
+        <i class="bi bi-arrow-up-circle fs-1 mb-3" style="color: var(--secondary-color);"></i>
+        <h5 class="fw-bold">Borrow Books</h5>
+        <p class="small text-muted">Easily borrow any book and track your borrow records.</p>
+    </div>
+    <div class="col-md-4 text-center">
+        <i class="bi bi-shield-lock fs-1 mb-3" style="color: var(--secondary-color);"></i>
+        <h5 class="fw-bold">Safe & Organized</h5>
+        <p class="small text-muted">Keep library records neat and secure for everyone.</p>
+    </div>
+</div>
+{% endblock %}

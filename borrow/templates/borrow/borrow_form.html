@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}Edit Borrow Record{% else %}Add Borrow Record{% endif %} | SmartLibrary
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-7">
+
+        <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+
+            <!-- Header -->
+            <div class="card-header text-center p-4 border-0" style="background-color: var(--primary-color);">
+                <h2 class="fw-bold text-white mb-0">
+                    {% if form.instance.pk %}Update Borrow Record{% else %}Add Borrow Record{% endif %}
+                </h2>
+                <p class="small text-white opacity-75 mb-0">
+                    Manage borrow records efficiently
+                </p>
+            </div>
+
+            <!-- Form Body -->
+            <div class="card-body p-4 p-lg-5 bg-white">
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger rounded-pill px-4 border-0 shadow-sm mb-4">
+                        <i class="bi bi-exclamation-circle me-2"></i>Please correct the highlighted errors.
+                    </div>
+                    {% endif %}
+
+                    <div class="row g-3">
+                        {% for field in form %}
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold small text-uppercase" style="color: var(--primary-color);">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <div class="form-text small text-muted">{{ field.help_text }}</div>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1 fw-bold">
+                                    <i class="bi bi-x-circle me-1"></i>{{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <hr class="my-4 opacity-25">
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'borrow_list' %}" class="btn btn-light px-4 rounded-pill text-muted fw-bold">
+                            Cancel
+                        </a>
+                        <a href="{% url 'borrow_list' %}" class="btn btn-outline-primary px-4 rounded-pill fw-bold">
+                            <i class="bi bi-card-list me-1"></i> View Borrow Records
+                        </a>
+                        <button type="submit" class="btn-primary-custom px-5">
+                            {% if form.instance.pk %}Update{% else %}Save{% endif %}
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    input, select, textarea {
+        display: block;
+        width: 100%;
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        transition: 0.2s ease-in-out;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(26, 62, 107, 0.1);
+        outline: none;
+    }
+
+    textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}

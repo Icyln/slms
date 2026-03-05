@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Borrow Records - SmartLibrary{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+    <h2 class="fw-bold" style="color: var(--primary-color);">Borrow Records</h2>
+    <a href="{% url 'borrow_create' %}" class="btn-primary-custom shadow-sm">
+        <i class="bi bi-plus-lg me-1"></i> Add Borrow Record
+    </a>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background-color: #f1f4f8;">
+                    <tr>
+                        <th class="ps-4 py-3 text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Borrower
+                        </th>
+                        <th class="py-3 text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Book
+                        </th>
+                        <th class="py-3 text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Borrowed Date
+                        </th>
+                        <th class="py-3 text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Return Date
+                        </th>
+                        <th class="py-3 text-center text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Returned?
+                        </th>
+                        <th class="py-3 text-end pe-4 text-uppercase small fw-bold" style="color: var(--primary-color);">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td class="ps-4">{{ record.borrower_name }}</td>
+                        <td>{{ record.book.title }}</td>
+                        <td>{{ record.borrowed_date|date:"Y-m-d" }}</td>
+                        <td>{{ record.return_date|date:"Y-m-d" }}</td>
+
+                        <td class="text-center">
+                            {% if record.is_returned %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">
+                                    Yes
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3">
+                                    No
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end pe-4">
+                            <div class="btn-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                                
+                                <!-- Edit Button -->
+                                <a href="{% url 'borrow_update' record.id %}" 
+                                   class="btn btn-white btn-sm border" 
+                                   title="Edit">
+                                    <i class="bi bi-pencil-square text-primary"></i>
+                                </a>
+
+                                <!-- Delete Button (Redirects to Confirm Page) -->
+                                <a href="{% url 'borrow_delete' record.id %}" 
+                                   class="btn btn-white btn-sm border" 
+                                   title="Delete">
+                                    <i class="bi bi-trash3 text-danger"></i>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox display-4 d-block mb-3 opacity-25"></i>
+                            <p class="mb-0">No borrow records found.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

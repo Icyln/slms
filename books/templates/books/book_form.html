@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}Edit Book{% else %}Add New Book{% endif %} | SmartLibrary
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-7">
+
+        <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+
+            <!-- Header -->
+            <div class="card-header text-center p-4 border-0"
+                 style="background-color: var(--primary-color);">
+                <h2 class="fw-bold text-white mb-0">
+                    {% if form.instance.pk %}Update Book{% else %}Add New Book{% endif %}
+                </h2>
+                <p class="small text-white opacity-75 mb-0">
+                    Ensure all library records are accurate
+                </p>
+            </div>
+
+            <!-- Form Body -->
+            <div class="card-body p-4 p-lg-5 bg-white">
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Please correct the errors below.
+                    </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold"
+                                   style="color: var(--primary-color);">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{% url 'book_list' %}"
+                           class="btn btn-light rounded-pill px-4">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn-primary-custom px-4">
+                            {% if form.instance.pk %}Update{% else %}Save{% endif %}
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="url"],
+textarea,
+select {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    transition: 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(26, 62, 107, 0.1);
+    outline: none;
+}
+
+textarea.form-control {
+    height: 80px !important;
+    resize: vertical;
+}
+</style>
+
+{% endblock %}

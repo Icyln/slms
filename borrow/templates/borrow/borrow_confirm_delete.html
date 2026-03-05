@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Delete - SmartLibrary{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+
+            <!-- Header -->
+            <div class="card-header text-center p-4 border-0" style="background-color: var(--primary-color);">
+                <h2 class="fw-bold text-white mb-0">
+                    Confirm Delete
+                </h2>
+                <p class="small text-white opacity-75 mb-0">
+                    This action cannot be undone
+                </p>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body p-4 p-lg-5 bg-white text-center">
+                <p class="mb-4">
+                    Are you sure you want to delete this borrow record?
+                    <br>
+                    <strong>{{ record.borrower_name }}</strong> borrowed 
+                    <strong>"{{ record.book.title }}"</strong>
+                </p>
+
+                <div class="d-flex justify-content-center gap-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm">
+                            <i class="bi bi-trash3 me-1"></i> Yes, Delete
+                        </button>
+                    </form>
+
+                    <a href="{% url 'borrow_list' %}" class="btn btn-light rounded-pill px-4 shadow-sm">
+                        <i class="bi bi-x-circle me-1"></i> Cancel
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
